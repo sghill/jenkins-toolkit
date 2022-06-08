@@ -14,7 +14,7 @@ class CategorizeFailuresTest {
     @Test
     void shouldFindExceptions() {
         CategorizeFailures categorize = new CategorizeFailures(Paths.get("src/test/resources/input-dir"));
-        List<String> actual = categorize.run(new String[0]);
+        List<String> actual = categorize.extract();
 
         assertThat(firstLineOf(actual.get(0))).isEqualTo("java.lang.InternalError: Could not create SecurityManager: allow");
         assertThat(firstLineOf(actual.get(1))).isEqualTo("org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use new java.lang.IllegalStateException java.lang.String");
@@ -25,7 +25,7 @@ class CategorizeFailuresTest {
     @Test
     void shouldGroupExceptions() {
         CategorizeFailures categorize = new CategorizeFailures(Paths.get("src/test/resources/input-dir"));
-        List<String> extracted = categorize.run(new String[0]);
+        List<String> extracted = categorize.extract();
         Map<String, Integer> actual = categorize.group(extracted);
         Map<String, Integer> expected = new HashMap<>();
         expected.put("java.lang.InternalError: Could not create SecurityManager: allow", 1);

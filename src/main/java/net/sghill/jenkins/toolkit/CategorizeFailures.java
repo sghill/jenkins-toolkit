@@ -28,7 +28,13 @@ public class CategorizeFailures {
         ).run(args);
     }
 
-    public List<String> run(String[] args) {
+    public void run(String[] args) {
+        group(extract()).forEach((k, v) -> {
+            log.info("{} -> {}", k.split("\n")[0], v);
+        });
+    }
+
+    public List<String> extract() {
         List<String> exceptions = new LinkedList<>();
         try (Stream<Path> files = Files.list(dir).sorted()) {
             files.forEach(f -> {

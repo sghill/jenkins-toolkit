@@ -36,10 +36,17 @@ tasks.withType<Test>().configureEach {
     useJUnitPlatform()
 }
 
+val fetchedDir = layout.buildDirectory.dir("fetched")
 tasks.register<JavaExec>("fetch") {
     classpath = configurations["runtimeClasspath"] + sourceSets.main.get().output
     mainClass.set("net.sghill.jenkins.toolkit.FetchFailed")
     systemProperty("baseUrl", "http://localhost:8080")
-    systemProperty("outDir", layout.buildDirectory.dir("fetched").get())
+    systemProperty("outDir", fetchedDir.get())
     systemProperty("script", layout.projectDirectory.file("src/jenkins/groovy/find-failed.groovy"))
+}
+
+tasks.register<JavaExec>("categorize") {
+    classpath = configurations["runtimeClasspath"] + sourceSets.main.get().output
+    mainClass.set("net.sghill.jenkins.toolkit.CategorizeFailures")
+    systemProperty("inputDir", fetchedDir.get())
 }
