@@ -63,11 +63,7 @@ public class CategorizeFailures {
                         return dist * 100 / exception.length() < THRESHOLD;
                     })
                     .findFirst();
-            if (found.isPresent()) {
-                counts.compute(found.get(), (key, old) -> Optional.ofNullable(old).orElse(0) + 1);
-            } else {
-                counts.put(exception, 1);
-            }
+            counts.compute(found.orElse(exception), (key, old) -> Optional.ofNullable(old).orElse(0) + 1);
         }
         return counts;
     }
