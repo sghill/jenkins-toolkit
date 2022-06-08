@@ -1,0 +1,13 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /work/workspace/abc
+[abc] $ groovy /work/workspace/abc/hudson8166277948636986490.groovy
+Error occurred during initialization of VM
+java.lang.InternalError: Could not create SecurityManager: allow
+	at sun.misc.Launcher.<init>(Launcher.java:106)
+	at sun.misc.Launcher.<clinit>(Launcher.java:54)
+	at java.lang.ClassLoader.initSystemClassLoader(ClassLoader.java:1445)
+	at java.lang.ClassLoader.getSystemClassLoader(ClassLoader.java:1430)
+
+Build step 'Execute Groovy script' marked build as failure
+Finished: FAILURE

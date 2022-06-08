@@ -1,0 +1,30 @@
+Started by user unknown or anonymous
+Running as SYSTEM
+Building in workspace /work/workspace/abc
+ERROR: Build step failed with exception
+org.jenkinsci.plugins.scriptsecurity.sandbox.RejectedAccessException: Scripts not permitted to use new java.lang.IllegalStateException java.lang.String
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.whitelists.StaticWhitelist.rejectNew(StaticWhitelist.java:238)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SandboxInterceptor.onNewInstance(SandboxInterceptor.java:175)
+	at org.kohsuke.groovy.sandbox.impl.Checker$3.call(Checker.java:205)
+	at org.kohsuke.groovy.sandbox.impl.Checker.checkedConstructor(Checker.java:210)
+	at org.kohsuke.groovy.sandbox.impl.Checker$checkedConstructor.callStatic(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallStatic(CallSiteArray.java:55)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:197)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callStatic(AbstractCallSite.java:217)
+	at Script1.run(Script1.groovy:1)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.GroovySandbox.runScript(GroovySandbox.java:162)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript.evaluate(SecureGroovyScript.java:433)
+	at org.jenkinsci.plugins.scriptsecurity.sandbox.groovy.SecureGroovyScript.evaluate(SecureGroovyScript.java:377)
+	at hudson.plugins.groovy.SystemGroovy.run(SystemGroovy.java:95)
+	at hudson.plugins.groovy.SystemGroovy.perform(SystemGroovy.java:59)
+	at hudson.tasks.BuildStepMonitor$1.perform(BuildStepMonitor.java:20)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.perform(AbstractBuild.java:814)
+	at hudson.model.Build$BuildExecution.build(Build.java:199)
+	at hudson.model.Build$BuildExecution.doRun(Build.java:164)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:522)
+	at hudson.model.Run.execute(Run.java:1896)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
+	at hudson.model.ResourceController.execute(ResourceController.java:101)
+	at hudson.model.Executor.run(Executor.java:442)
+Build step 'Execute system Groovy script' marked build as failure
+Finished: FAILURE
