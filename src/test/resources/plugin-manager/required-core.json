@@ -1,0 +1,17 @@
+{
+  "_class": "hudson.LocalPluginManager",
+  "plugins": [
+    {
+      "hasUpdate": false,
+      "requiredCoreVersion": "1.375",
+      "shortName": "backup",
+      "version": "1.6.1"
+    },
+    {
+      "hasUpdate": true,
+      "requiredCoreVersion": "1.480",
+      "shortName": "text-finder",
+      "version": "1.10"
+    }
+  ]
+}

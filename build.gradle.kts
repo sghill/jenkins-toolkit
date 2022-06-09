@@ -20,16 +20,26 @@ dependencies {
     "jenkinsCompileOnly"("org.jenkins-ci.main:jenkins-core:2.332.3")
 
     implementation("org.slf4j:slf4j-api:1.7.36")
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp.core)
     implementation("info.debatty:java-string-similarity:2.0.0")
+    implementation(platform(libs.jackson.bom))
+    implementation(libs.bundles.retrofit)
 
     runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
 
-    testImplementation(platform("org.junit:junit-bom:5.8.2"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("org.assertj:assertj-core:3.23.1")
+    testImplementation(platform(testLibs.junit.bom))
+    testImplementation(platform(testLibs.mockito.bom))
+    testImplementation(testLibs.bundles.junit5)
+    testImplementation(testLibs.okhttp.mockwebserver)
+    testImplementation(libs.commons.io)
 
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    testRuntimeOnly(testLibs.junit.engine)
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
+    options.compilerArgs.addAll(listOf("-parameters"))
 }
 
 tasks.withType<Test>().configureEach {
