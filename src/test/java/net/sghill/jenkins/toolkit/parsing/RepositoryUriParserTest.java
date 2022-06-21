@@ -1,5 +1,7 @@
-package net.sghill.github;
+package net.sghill.jenkins.toolkit.parsing;
 
+import net.sghill.jenkins.toolkit.parsing.HostedGitRepository;
+import net.sghill.jenkins.toolkit.parsing.RepositoryUriParser;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;

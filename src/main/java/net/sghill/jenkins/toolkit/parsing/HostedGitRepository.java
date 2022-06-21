@@ -1,4 +1,4 @@
-package net.sghill.github;
+package net.sghill.jenkins.toolkit.parsing;
 
 import lombok.Value;
 
