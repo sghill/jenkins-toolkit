@@ -1,0 +1,6 @@
+Plugin,Installation,
+https://github.com/jenkinsci/build-pipeline-plugin,33071,Open security vulnerability
+https://github.com/jenkinsci/build-metrics-plugin/pull/7,3325,Open security vulnerability
+https://github.com/jenkinsci/ownership-plugin/pull/88,2353,Two major CSRFs and XSS vulnerabilities
+https://github.com/jenkinsci/selenium-plugin,2117,Major open security vulnerability
+https://github.com/jenkinsci/coverity-plugin/pull/24,915,Deprecated

@@ -1,0 +1,15 @@
+Plugin,Installations,Notes
+https://github.com/jenkinsci/disk-usage-plugin/pull/45,12762,
+https://github.com/jenkinsci/shiningpanda-plugin/pull/12,4382,"Service may be deprecated, no updates since 2018"
+https://github.com/jenkinsci/pipeline-config-history-plugin/pull/36,1870,
+https://github.com/jenkinsci/testcomplete-plugin/pull/6,1251,
+https://github.com/jenkinsci/metadata-plugin/pull/7,436,
+https://github.com/jenkinsci/libvirt-slave-plugin/pull/26,360,
+https://github.com/jenkinsci/storable-configs-plugin/pull/2,155,"Maintenance commit in 2020, prior activity in 2012"
+https://github.com/jenkinsci/computer-queue-plugin/pull/7,96,
+https://github.com/jenkinsci/views-containing-job-plugin/pull/4,63,
+https://github.com/jenkinsci/tag-cloud-plugin/pull/2,29,
+https://github.com/jenkinsci/failedjobdeactivator-plugin/pull/10,24,
+https://github.com/jenkinsci/smartfrog-plugin/pull/8,11,
+https://github.com/jenkinsci/loadcomplete-plugin/pull/2,7,
+https://github.com/jenkinsci/radargun-plugin/pull/10,2,
