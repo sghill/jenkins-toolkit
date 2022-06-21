@@ -25,6 +25,7 @@ dependencies {
     implementation("info.debatty:java-string-similarity:2.0.0")
     implementation(platform(libs.jackson.bom))
     implementation(libs.bundles.retrofit)
+    implementation(libs.commons.lang3)
 
     runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
 

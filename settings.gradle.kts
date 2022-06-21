@@ -3,6 +3,9 @@ rootProject.name = "jenkins-toolkit"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
+            library("commons-lang3", "org.apache.commons", "commons-lang3").version {
+                strictly("[3.0.0, 4.0.0[")
+            }
             val retrofitVersion = version("retrofit") {
                 strictly("[2.0.0, 3.0.0[")
             }
