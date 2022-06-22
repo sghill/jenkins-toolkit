@@ -26,6 +26,8 @@ dependencies {
     implementation(platform(libs.jackson.bom))
     implementation(libs.bundles.retrofit)
     implementation(libs.commons.lang3)
+    implementation(libs.commons.csv)
+    implementation(libs.picocli)
 
     runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
 

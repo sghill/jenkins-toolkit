@@ -3,6 +3,9 @@ rootProject.name = "jenkins-toolkit"
 dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
+            library("commons-csv", "org.apache.commons", "commons-csv").version {
+                strictly("[1.0.0, 2.0.0[")
+            }
             library("commons-lang3", "org.apache.commons", "commons-lang3").version {
                 strictly("[3.0.0, 4.0.0[")
             }
@@ -18,6 +21,9 @@ dependencyResolutionManagement {
                 reject("4.10.0-+")
             }
             library("okhttp-core", "com.squareup.okhttp3", "okhttp").withoutVersion()
+            library("picocli", "info.picocli", "picocli").version {
+                strictly("[4.6.3, 5.0.0[")
+            }
 
             library("jackson-bom", "com.fasterxml.jackson", "jackson-bom").version {
                 strictly("[2.0.0, 3.0.0[")
