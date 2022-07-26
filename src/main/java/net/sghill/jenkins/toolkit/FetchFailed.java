@@ -1,16 +1,12 @@
 package net.sghill.jenkins.toolkit;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.HttpUrl;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -29,26 +25,63 @@ import java.util.concurrent.TimeUnit;
 public class FetchFailed {
     private final OkHttpClient client;
     private final Path outputDir;
-    private final HttpUrl url;
+
+    private final String base;
     private final Path script;
 
     public static void main(String[] args) {
         String base = System.getProperty("url", "http://localhost:8080");
-        HttpUrl url = base.endsWith("/") ? HttpUrl.get(base + "scriptText") : HttpUrl.get(base + "/scriptText");
         Path out = Paths.get(System.getProperty("outDir", "out"));
         Path groovyScript = Paths.get(System.getProperty("script"));
-        new FetchFailed(new OkHttpClient(), out, url, groovyScript).run(args);
+        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                .connectTimeout(1, TimeUnit.MINUTES)
+                .callTimeout(2, TimeUnit.MINUTES)
+                .readTimeout(5, TimeUnit.MINUTES)
+                .build();
+        new FetchFailed(okHttpClient, out, base, groovyScript).run(args);
+    }
+
+    private String getCrumb(OkHttpClient client, String credential) {
+        HttpUrl crumbUrl = base.endsWith("/") ? HttpUrl.get(base + "crumbIssuer/api/json") : HttpUrl.get(base + "/crumbIssuer/api/json");
+        Request request = new Request.Builder().get().url(crumbUrl)
+                .header("Authorization", credential).build();
+        try (Response response = client.newCall(request).execute()) {
+            if (!response.isSuccessful()) {
+                log.error("{}: Unexpected status {}", request.url(), response);
+                throw new IllegalStateException("Unexpected status " + response.code());
+            }
+            JsonNode responseNode = new ObjectMapper().readValue(response.body().string(), JsonNode.class);
+            return responseNode.get("crumb").asText();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void run(String[] args) {
         try {
             Files.createDirectories(outputDir);
             String scriptText = String.join("\n", Files.readAllLines(script));
-            Call call = client.newCall(new Request.Builder()
+
+            HttpUrl scriptUrl = base.endsWith("/") ? HttpUrl.get(base + "scriptText") : HttpUrl.get(base + "/scriptText");
+            Request.Builder requestBuilder = new Request.Builder()
                     .post(new FormBody.Builder()
                             .add("script", scriptText)
                             .build())
-                    .url(url)
+                    .url(scriptUrl);
+
+            String username = System.getProperty("username");
+            String password = System.getProperty("password");
+            String basicCredential = null;
+            String crumb = null;
+            if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(password)) {
+                basicCredential = Credentials.basic(username, password);
+                crumb = getCrumb(client, basicCredential);
+                requestBuilder = requestBuilder.header("Authorization", basicCredential)
+                        .header("Jenkins-Crumb", crumb);
+            }
+
+            Call call = client.newCall(requestBuilder
                     .build());
             List<Failed> failed = new LinkedList<>();
             try (Response response = call.execute()) {
@@ -66,9 +99,14 @@ public class FetchFailed {
             log.info("Queuing up fetches for {} failed build(s) to store in {}", failed.size(), outputDir);
             CountDownLatch latch = new CountDownLatch(failed.size());
             for (Failed f : failed) {
-                Request r = new Request.Builder()
+                Request.Builder consoleRequestBuilder = new Request.Builder()
                         .get()
-                        .url(f.getConsoleTextUrl())
+                        .url(f.getConsoleTextUrl());
+                if (basicCredential != null) {
+                    consoleRequestBuilder = consoleRequestBuilder.header("Authorization", basicCredential)
+                            .header("Jenkins-Crumb", crumb);
+                }
+                Request r = consoleRequestBuilder
                         .build();
                 client.newCall(r).enqueue(new Callback() {
                     @Override

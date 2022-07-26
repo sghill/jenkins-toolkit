@@ -27,6 +27,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
     implementation(libs.commons.lang3)
     implementation(libs.commons.csv)
+    implementation(libs.commons.io)
     implementation(libs.picocli)
 
     runtimeOnly("org.slf4j:slf4j-simple:1.7.36")
@@ -35,7 +36,6 @@ dependencies {
     testImplementation(platform(testLibs.mockito.bom))
     testImplementation(testLibs.bundles.junit5)
     testImplementation(testLibs.okhttp.mockwebserver)
-    testImplementation(libs.commons.io)
 
     testRuntimeOnly(testLibs.junit.engine)
 }
